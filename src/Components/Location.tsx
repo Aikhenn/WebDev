@@ -1,10 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import LocationBg from  '../assets/LocationBg.png';
 import Locations from '../assets/Location.png';
+import NavBar from "./NavBar";
+import Footer from "./Footer";
 
 const Location = () => {
     return (
         <>
+         <NavBar />
         <Box sx={{maxWidth: '100%'}}>
         <Typography variant= 'h1' sx={{position: 'absolute', top: 200, left: '40%', color: 'white', fontWeight: 'bold'}}> Location </Typography>
          <img src={LocationBg} style={{ maxWidth: "100%", opacity: "100" }} />
@@ -36,7 +39,7 @@ const Location = () => {
  
  
  
-        
+        <Footer />
         </>
     )
 }

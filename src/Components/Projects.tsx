@@ -1,3 +1,5 @@
+import Footer from "./Footer";
+import NavBar from "./NavBar";
 
 
 
@@ -7,7 +9,12 @@ const Projects = () => {
     
 
     return (
-        <div>Projects</div>
+        <>
+         <NavBar />
+         <div>Projects</div>
+         <Footer />
+        </>
+   
     )
 }
 export default Projects;

@@ -5,6 +5,9 @@ import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import MobileApp from '../assets/MobileApp.png';
 import SliderPage from "./SliderPage";
+import NavBar from "./NavBar";
+import Footer from "./Footer";
+
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -13,7 +16,9 @@ theme = responsiveFontSizes(theme);
 
 const Home = () => {
     return (
-        <><Box
+        <>
+     <NavBar />
+        <Box
             sx={{
                 position: 'relative',
                 top: '0px',
@@ -203,6 +208,7 @@ const Home = () => {
                 </Card>
             </Grid>
          </Stack>
+         <Footer />
          </>
      
     )

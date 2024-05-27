@@ -2,10 +2,13 @@ import { Box, Typography } from '@mui/material';
 import AboutBg from '../assets/AboutBg.png';
 
 import OrgChart from './Orgchart';
+import NavBar from './NavBar';
+import Footer from './Footer';
 
 const About = () => {
     return (
        <>
+       <NavBar />
        <Box sx={{maxWidth: '100%'}}>
        <Typography variant= 'h1' sx={{position: 'absolute', top: 200, left: '40%', color: 'white', fontWeight: 'bold'}}> About Us</Typography>
         <img src={AboutBg} style={{ maxWidth: "100%", opacity: "100" }} />
@@ -26,7 +29,7 @@ const About = () => {
 
 
 
-       
+        <Footer />
        </>
     )
 }

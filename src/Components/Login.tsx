@@ -1,6 +1,8 @@
 import { Box, Button,  Dialog, Stack, TextField, ThemeProvider, Typography, createTheme } from "@mui/material";
 import { FC } from "react";
 import LoginBg from '../assets/LoginBg2.png';
+import { useNavigate } from "react-router-dom";
+
 
 
 
@@ -55,6 +57,8 @@ const Popup: FC<PopupProps> = ({ open, setOpen}) => {
         setOpen(false);
     }
 
+    const navigate = useNavigate();
+
   
 
     return (
@@ -82,7 +86,7 @@ const Popup: FC<PopupProps> = ({ open, setOpen}) => {
                     <TextField id="outlined-basic" label="Username" variant="outlined"   InputProps={{style: {borderRadius: 40,} }} sx={{margin: 1, marginTop: 5}}/>
                     <TextField id="outlined-basic" label="Password" variant="outlined" InputProps={{style: {borderRadius: 40,} }} sx={{margin: 1}}/>
                    
-                    <Button variant='contained' sx={{backgroundColor: 'white',opacity: '100%', borderRadius: 10, marginTop: 8,color: '#0C7230', '&:hover': { backgroundColor: '#0C7230', color: 'white'  } }}>Login as Admin</Button>
+                    <Button onClick={() => navigate("/admin")} variant='contained' sx={{backgroundColor: 'white',opacity: '100%', borderRadius: 10, marginTop: 8,color: '#0C7230', '&:hover': { backgroundColor: '#0C7230', color: 'white'  } }}>Login as Admin</Button>
                 
                 </ThemeProvider>
             </Stack>

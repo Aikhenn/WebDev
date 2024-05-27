@@ -2,6 +2,8 @@ import {Box, Button, Card,  CardContent, CardMedia, Typography} from "@mui/mater
 import EventsBg from '../assets/EventsBg.png';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import NavBar from "./NavBar";
+import Footer from "./Footer";
 
 
 const Events = () => {
@@ -10,6 +12,7 @@ const Events = () => {
 
     return (
 <>
+<NavBar />
        <Box sx={{Width: '100%'}}>
        <Typography variant= 'h1' sx={{position: 'absolute', top: 200, left: '40%', color: 'white', fontWeight: 'bold'}}> Events</Typography>
         <img src={EventsBg} style={{ width: innerWidth-12, opacity: "100", textAlign: 'center' }} />
@@ -173,7 +176,7 @@ const Events = () => {
 
 
 
-       
+        <Footer />
        </>    )
 }
 export default Events;
