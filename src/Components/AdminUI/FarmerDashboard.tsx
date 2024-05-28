@@ -1,130 +1,125 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Box, Button, Card, Tab, Tabs, ThemeProvider, Typography, createTheme } from '@mui/material';
+import React from 'react';
+import { useSpring, animated } from 'react-spring';
 
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Box, Button, Typography } from '@mui/material';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import FarmerProfile from './TablesUI/FarmerProfile';
+import FarmerRegistration from './TablesUI/FarmerRegistration';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: '#0C7230',
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
 
-function createFarmerVerifData(
-  Fname: string,
-  Lname: string,
-  RegistrationDate: string,
-) {
-  return { Fname, Lname, RegistrationDate };
-}
-
-function createFarmerProfileData(
-  Fname: string,
-  Lname: string,
-  Age: number,
-  District: string,
-  RegistrationDate: string,
-) {
-  return { Fname, Lname, Age, District, RegistrationDate };
-}
-
-const FarmerVerif = [
-  createFarmerVerifData('Celia','almanzor', '2024-10-23'),
-  createFarmerVerifData('Ervin', 'Emanuel', '2024-12-23'),
-  createFarmerVerifData('Lucinda', 'Maria',   '2024-12-23'),
-  createFarmerVerifData('patricia', 'Lilan',  '2024-12-23'),
-  createFarmerVerifData('Guo', 'alice', '2024-12-23'),
-];
-
-const FarmerProf = [
-  createFarmerProfileData('Celia','almanzor', 42, 'Malabon','2024-12-23'),
-  createFarmerProfileData('Ervin', 'Emanuel',  42, 'Malabon', '2024-12-23'),
-  createFarmerProfileData('Lucinda', 'Maria',  42, 'Malabon', '2024-12-23'),
-  createFarmerProfileData('patricia', 'Lilan',  42, 'Malabon', '2024-12-23'),
-  createFarmerProfileData('Guo', 'alice', 42, 'Malabon', '2024-12-23'),
-];
 
 export default function FarmerDashboard() {
-  return (
-    <Box sx ={{position: 'relative', top: 80,display: 'flex', flexDirection: 'column'}}>
-        <TableContainer component={Paper}>
-        <Table sx={{ minWidth: innerWidth-333 }} aria-label="customized table">
-            <TableHead>
-                <Typography variant='h4' sx={{fontWeight: 'bold', padding: '20px 0px 20px  1px', color: 'green'}}>Farmer Verification</Typography>
-            <TableRow>
-                <StyledTableCell>First Name </StyledTableCell>
-                <StyledTableCell align="center">Last Name</StyledTableCell>
-                <StyledTableCell align="center">Registration Date</StyledTableCell>
-                <StyledTableCell align="center">Status</StyledTableCell>
-                <StyledTableCell align="center">Action</StyledTableCell>
-            </TableRow>
-            </TableHead>
-            <TableBody>
-            {FarmerVerif.map((FarmerVerif) => (
-                <StyledTableRow key={FarmerVerif.Fname}>
-                <StyledTableCell component="th" scope="row">
-                    {FarmerVerif.Fname}
-                </StyledTableCell>
-                <StyledTableCell align="center">{FarmerVerif.Lname}</StyledTableCell>
-                <StyledTableCell align="center">{FarmerVerif.RegistrationDate}</StyledTableCell>
-                <StyledTableCell align="center"><Button variant='contained'>Pending</Button></StyledTableCell>
-                <StyledTableCell align="center"><Button variant='contained' sx={{backgroundColor: 'Green', '&:hover': {backgroundColor: 'green'}}}>Approve</Button> <Button variant='contained' sx={{backgroundColor: 'Red', '&:hover': {backgroundColor: 'red'}}}>Reject</Button></StyledTableCell>
-                </StyledTableRow>
-            ))}
-            </TableBody>
-        </Table>
-        </TableContainer>
 
-    <TableContainer component={Paper}>
-    <Table sx={{ minWidth: innerWidth-333 }} aria-label="customized table">
-    <TableHead>
-        <Typography variant='h4' sx={{fontWeight: 'bold', padding: '20px 0px 20px  1px', color: 'green'}}>Farmer Profile</Typography>
-        <TableRow>
-        <StyledTableCell>First Name </StyledTableCell>
-        <StyledTableCell align="center">Last Name</StyledTableCell>
-        <StyledTableCell align="center">Age</StyledTableCell>
-        <StyledTableCell align="center">Location</StyledTableCell>
-        <StyledTableCell align="center">Verification Date</StyledTableCell>
+  const theme = createTheme({
+    palette: {
+      secondary: {
+        main: '#0C7230'
+      }
+    }
+  });
+      
+
+  function Number ({n}){
+    const {number} = useSpring({
+      from: {number: 0},
+      number:n,
+      delay: 20,
+      config: {mass: 1, tension: 20, friction: 10},
+  
+    });
+    return <animated.div>{number.to((n: number)=> n.toFixed(0))}</animated.div>
+  
+  }
+
+  const [value, setValue] = React.useState('1');
+
+  const CardStyle ={
+    padding: 5, 
+   
+     borderRadius: '20px', 
+     minHeight: 200,
+     minWidth: 400,
+     margin: '10px 20px 10px 20px' 
+}
+
+
+  const handleChange =(event: React.ChangeEvent<object>, newValue: string) => {
+    setValue(newValue);
+  }
+
+  return (
+    <>
+    <Box sx={{position:'absolute', top: -2 ,left: 0,zIndex: 0, width: innerWidth, height: 500, opacity: '90%', borderRadius: '0px 0px 120px 120px',backgroundColor: '#0C7230'}} />
+
+   
+    <Box sx ={{position: 'relative', top: 0,display: 'flex',zIndex: 2,flexDirection: 'column'}}>
      
-        <StyledTableCell align="center">Action</StyledTableCell>
-        </TableRow>
-    </TableHead>
-    <TableBody>
-        {FarmerProf.map((FarmerProf) => (
-        <StyledTableRow key={FarmerProf.Fname}>
-            <StyledTableCell component="th" scope="row">
-            {FarmerProf.Fname}
-            </StyledTableCell>
-            <StyledTableCell align="center">{FarmerProf.Lname}</StyledTableCell>
-            <StyledTableCell align="center">{FarmerProf.Age}</StyledTableCell>
-            <StyledTableCell align="center">{FarmerProf.District}</StyledTableCell>
-            <StyledTableCell align="center">{FarmerProf.RegistrationDate}</StyledTableCell>
-            <StyledTableCell align="center"><Button variant='contained' sx={{backgroundColor: '#DDC200', '&:hover': {backgroundColor: '#DDC200'}}}>Edit</Button> <Button variant='contained' sx={{backgroundColor: 'Red', '&:hover': {backgroundColor: 'red'}}}>Delete</Button></StyledTableCell>
-        </StyledTableRow>
-        ))}
-    </TableBody>
-    </Table>
-    </TableContainer>
+       <Box sx={{display: 'flex', flexDirection: 'row',  justifyContent: 'center',flexWrap: 'wrap'}}>
+            <Card sx={CardStyle}>
+                  <Typography variant='h4' sx={{fontWeight: 'bold'}}>Registered Farmers</Typography>
+                    <br></br>
+                  <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}><Number n={17}/> </Typography> 
+            </Card>
+
+            <Card sx={CardStyle}>
+                  <Typography variant='h4' sx={{fontWeight: 'bold'}}>Pending Verification</Typography>
+                    <br></br>
+                  <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}><Number n={24}/> </Typography>
+            </Card>
+        </Box>
+    <ThemeProvider theme={theme}>
+      
+  
+    <TabContext value={value}  >
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <TabList onChange={handleChange} aria-label="lab API tabs example"   
+        
+        TabIndicatorProps={{
+          sx: {
+            backgroundColor: 'red',
+          },
+        }}
+          sx={{
+              '& button': {
+                borderRadius: '0px 10px 0px 0px', 
+                backgroundColor: 'white',
+                margin:'0px -10px 0px 0px',
+                boxShadow: '-11px 2px 20px'},
+               
+
+          }}
+          textColor='secondary'
+       
+        
+        >
+          <Tab label="Registerd Farmers" value="1" sx={{zIndex: 3}}/>
+          <Tab label="Pending Verification" value="2" sx={{zIndex: 2}} />
+       
+        </TabList>
+      </Box>
+      <TabPanel value="1" sx= {{ backgroundColor: 'white'}}>
+            <FarmerProfile />
+      </TabPanel>
+      <TabPanel value="2" sx= {{ backgroundColor: 'white'}}>
+          <FarmerRegistration n ={440} />
+
+       
+      </TabPanel>
+     
+  
+    </TabContext>
+    </ThemeProvider>
+
+
+   
+
+    
 
 </Box>
+</>
   );
 }

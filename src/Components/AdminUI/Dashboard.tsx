@@ -1,142 +1,145 @@
-import { Box, Button, Card, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, tableCellClasses } from "@mui/material"
+import { Box,  Card, Typography } from "@mui/material"
+import { PieChart } from "@mui/x-charts";
+import { useSpring, animated } from 'react-spring';
+import OrderTableUI from "./TablesUI/OrderTableUI";
+import FarmerRegistration from "./TablesUI/FarmerRegistration";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function Number ({n}){
+  const {number} = useSpring({
+    from: {number: 0},
+    number:n,
+    delay: 20,
+    config: {mass: 1, tension: 20, friction: 10},
+
+  });
+  return <animated.div>{number.to((n: number)=> n.toFixed(0))}</animated.div>
+
+}
 
 
 const Dashboard = () => {
 
     const CardStyle ={
         padding: 5, 
-        boxShadow: '1px 1px 4px',
+       
          borderRadius: '20px', 
-         height: 200,
-         width: 400,
-         margin: '10px 20px 10px 20px' 
+         height: 190,
+         width: 360,
+         margin: '10px 10px 10px 10px' 
     }
 
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-      [`&.${tableCellClasses.head}`]: {
-        backgroundColor: '#0C7230',
-        color: theme.palette.common.white,
-      },
-      [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-      },
-    }));
-    
-    const StyledTableRow = styled(TableRow)(({ theme }) => ({
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-      // hide last border
-      '&:last-child td, &:last-child th': {
-        border: 0,
-      },
-    }));
-    
-    function createData(
-      name: string,
-      calories: string,
-      fat: number,
-      carbs: number,
-      protein: number,
-    ) {
-      return { name, calories, fat, carbs, protein };
-    }
-    
-    const rows = [
-      createData('Celia','almanzor', 6.0, 24, 4.0),
-      createData('Ervin', 'Emanuel', 9.0, 37, 4.3),
-      createData('Lucinda', 'Maria', 16.0, 24, 6.0),
-      createData('patricia', 'Lilan', 3.7, 67, 4.3),
-      createData('Guo', 'alice', 16.0, 49, 3.9),
+
+    const data = [
+      { id: 0, value: 10, label: 'series A' },
+      { id: 1, value: 15, label: 'series B' },
+      { id: 2, value: 20, label: 'series C' },
     ];
+    
+   
     
 
     return (
-    <Box sx={{ position: 'relative', top: 80,display: 'flex', flexDirection: 'column' ,  width: innerWidth- 332, height: 'auto'}}>    
+    <Box sx={{ position: 'relative', top: 0 ,display: 'flex', flexDirection: 'row' , justifyContent: 'center', maxWidth: innerWidth- 332, height: 'auto'}}>    
+        <Box sx={{ position: 'relative', top: 0 ,display: 'flex', flexDirection: 'column' ,  height: 'auto'}}>
+          <Box sx={{display: 'flex', flexDirection: 'row',  justifyContent: 'center',flexWrap: 'wrap'}}>
+              <Card sx={CardStyle}>
+                    <Typography variant='h5' sx={{fontWeight: 'bold'}}>Registered Farmers</Typography>
+                      <br></br>
+                    <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}><Number n={17}/> </Typography>
+              </Card>
 
-        <Box sx={{display: 'flex', flexDirection: 'row',  justifyContent: 'center',flexWrap: 'wrap'}}>
-            <Card sx={CardStyle}>
-                  <Typography variant='h4' sx={{fontWeight: 'bold'}}>Registered Farmers</Typography>
-                    <br></br>
-                  <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}>00</Typography>
-            </Card>
+              <Card sx={CardStyle}>
+                    <Typography variant='h5' sx={{fontWeight: 'bold'}}>Registered Buyers</Typography>
+                      <br></br>
+                    <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}><Number n={17}/> </Typography>
+              </Card>
 
-            <Card sx={CardStyle}>
-                  <Typography variant='h4' sx={{fontWeight: 'bold'}}>Registered Buyers</Typography>
-                    <br></br>
-                  <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}>00</Typography>
-            </Card>
+              <Card sx={CardStyle}>
+                    <Typography variant='h5' sx={{fontWeight: 'bold'}}>Upcoming Events</Typography>
+                      <br></br>
+                    <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}><Number n={10}/> </Typography>
+              </Card>
 
-            <Card sx={CardStyle}>
-                  <Typography variant='h4' sx={{fontWeight: 'bold'}}>Upcoming Events</Typography>
-                    <br></br>
-                  <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}>00</Typography>
-            </Card>
+              <Card sx={CardStyle}>
+                    <Typography variant='h5' sx={{fontWeight: 'bold'}}>Pending Orders</Typography>
+                      <br></br>
+                    <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}><Number n={6}/> </Typography>
+              </Card>
 
-            <Card sx={CardStyle}>
-                  <Typography variant='h4' sx={{fontWeight: 'bold'}}>Pending Orders</Typography>
-                    <br></br>
-                  <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}>00</Typography>
-            </Card>
+              <Card sx={CardStyle}>
+                    <Typography variant='h5' sx={{fontWeight: 'bold'}}>Completed Orders</Typography>
+                      <br></br>
+                    <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}><Number n={8}/> </Typography>
+              </Card>
 
-            <Card sx={CardStyle}>
-                  <Typography variant='h4' sx={{fontWeight: 'bold'}}>Completed Orders</Typography>
-                    <br></br>
-                  <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}>00</Typography>
-            </Card>
+              <Card sx={CardStyle}>
+                    <Typography variant='h5' sx={{fontWeight: 'bold'}}>On Going Projects</Typography>
+                      <br></br>
+                    <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}><Number n={5}/> </Typography>
+              </Card>
 
-            <Card sx={CardStyle}>
-                  <Typography variant='h4' sx={{fontWeight: 'bold'}}>On Going Projects</Typography>
-                    <br></br>
-                  <Typography variant='h3' sx={{fontWeight: 'bolder', color: '#0C7230'}}>00</Typography>
-            </Card>
+          </Box>
+          <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center',flexWrap: 'wrap'}}>
+              <Card sx ={{padding: 5, margin: '10px 10px 0px 10px' , width: 550, height: 350 ,  borderRadius: '20px', }}>
+              <Typography variant='h4' sx={{fontWeight: 'bold'}}>Farmers By Region</Typography>
+              <PieChart 
+                sx={{padding: 4 }}
+                series={[
+                  {
+                    data,
+                    highlightScope: { faded: 'global', highlighted: 'item' },
+                    faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+                  },
+                ]}
+                maxHeight={250}
+              />
+              </Card>
+              <Card sx ={{padding: 5, margin: '10px 10px 10px 10px' , width: 550, height: 350 ,  borderRadius: '20px', }}>
+              <Typography variant='h4' sx={{fontWeight: 'bold'}}>Buyers By Region</Typography>
+              <PieChart 
+                sx={{padding: 4 }}
+                series={[
+                  {
+                    data,
+                    highlightScope: { faded: 'global', highlighted: 'item' },
+                    faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+                  },
+                ]}
+                maxHeight={250}
+              />
+              </Card>
+          </Box>
 
+          <Box sx={{display: 'flex', flexDirection: 'row',  justifyContent: 'center',flexWrap: 'wrap'}}>
+              <Card sx ={{padding: 5, margin: '10px 20px 10px 20px' , width: 1120, height: 420 , borderRadius: '10px', }}>
+              <Typography variant='h5' sx={{fontWeight: 'bold'}}>Recent Orders</Typography>
+              <OrderTableUI n={210} />
+              
+              </Card>
+           
+          </Box>
         </Box>
-        <Box sx={{display: 'flex', flexDirection: 'row',  justifyContent: 'center',flexWrap: 'wrap'}}>
-            <Card sx ={{padding: 5, margin: '10px 20px 10px 20px' , width: 620, height: 400 , boxShadow: '1px 1px 4px', borderRadius: '0px', }}>
-            <Typography variant='h4' sx={{fontWeight: 'bold'}}>Farmers By Region</Typography>
-            </Card>
-            <Card sx ={{padding: 5, margin: '10px 20px 10px 20px' , width: 620, height: 400 , boxShadow: '1px 1px 4px', borderRadius: '20px', }}>
-            <Typography variant='h4' sx={{fontWeight: 'bold'}}>Buyers By Region</Typography>
-            </Card>
-        </Box>
 
-        <Box sx={{display: 'flex', flexDirection: 'row',  justifyContent: 'center',flexWrap: 'wrap'}}>
-            <Card sx ={{padding: 5, margin: '10px 20px 10px 20px' , width: 820, height: 400 , borderRadius: '10px', }}>
-            <Typography variant='h5' sx={{fontWeight: 'bold'}}>Recent Orders</Typography>
-            <TableContainer component={Paper}>
-        <Table sx={{ minWidth: innerWidth-333 }} aria-label="customized table">
-            <TableHead>
-                
-            <TableRow>
-                <StyledTableCell>First Name </StyledTableCell>
-                <StyledTableCell align="center">Last Name</StyledTableCell>
-                <StyledTableCell align="center">Registration Date</StyledTableCell>
-                <StyledTableCell align="center">Status</StyledTableCell>
-                <StyledTableCell align="center">Action</StyledTableCell>
-            </TableRow>
-            </TableHead>
-            <TableBody>
-            {rows.map((row) => (
-                <StyledTableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
-                    {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="center">{row.calories}</StyledTableCell>
-                <StyledTableCell align="center">{row.fat}</StyledTableCell>
-                <StyledTableCell align="center"><Button variant='contained'>Pending</Button></StyledTableCell>
-                <StyledTableCell align="center"><Button variant='contained' sx={{backgroundColor: 'Green', '&:hover': {backgroundColor: 'green'}}}>Approve</Button> <Button variant='contained' sx={{backgroundColor: 'Red', '&:hover': {backgroundColor: 'red'}}}>Reject</Button></StyledTableCell>
-                </StyledTableRow>
-            ))}
-            </TableBody>
-        </Table>
-        </TableContainer>
+        <Box>
+           
+           
+           <Card sx ={{padding: 5, margin: '10px 5px 10px 5px' , width: 350, height: 600 , borderRadius: '10px', }}>
+              <Typography variant='h5' sx={{fontWeight: 'bold', marginBottom: 4}}>Activity Log</Typography>
             
-            </Card>
-            <Card sx ={{padding: 5, margin: '10px 20px 10px 20px' , width: 420, height: 400 , borderRadius: '10px', }}>
-            <Typography variant='h5' sx={{fontWeight: 'bold'}}>Pending Verification</Typography>
-            </Card>
+              </Card>
+
+                  
+           <Card sx ={{padding: 5, margin: '10px 5px 10px 5px' , width: 350, height: 600 , borderRadius: '10px', }}>
+              <Typography variant='h5' sx={{fontWeight: 'bold', marginBottom: 4}}>Pending Verification</Typography>
+                <FarmerRegistration n={330}/>
+              </Card>
+               
+              
+               
+
         </Box>
+        
 
 
     </Box>

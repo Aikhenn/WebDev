@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { useState } from 'react';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { styled, useTheme, Theme, CSSObject, createMuiTheme, createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -28,11 +29,39 @@ import HelenLogo from '../../assets/HelenGreenLogo2.png';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import BuyerDashboard from './BuyerDashboard';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import SellIcon from '@mui/icons-material/Sell';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from "react-router-dom";
 import EventManagement from './EventManagement';
 import ProjectManagement from './ProjectManagement';
+
+import OrdersDashboard from './OrdersDashboard';
+import ProductDashboard from './ProductDashboard';
+
+const muiTheme = createTheme({
+  components: {
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+        
+
+          '&&.Mui-selected': {
+            backgroundColor: 'red',
+          },
+          '&:hover': {
+            backgroundColor: '#0C7230', color: 'white',
+          },
+          '&:active': {
+            backgroundColor: '#0C7230',
+          }
+        },
+      },
+    },
+  },
+});
+
 
 const drawerWidth = 280;
 
@@ -145,6 +174,9 @@ export default function Sidenav() {
           </IconButton>
         </DrawerHeader >
         <Divider />
+        <ThemeProvider theme={muiTheme}>
+          
+      
         <List >
         
             <ListItem disablePadding sx={{ display: 'block' ,marginTop: 5 }} onClick={()=> setMenudata("Dashboard")}>
@@ -215,13 +247,10 @@ export default function Sidenav() {
         
         </List>
 
-
         <Divider />
-        
-    
+
         <List>
-        
-        <ListItem disablePadding sx={{ display: 'block' ,marginTop: 5 }} onClick={()=> setMenudata("EventManagement")}>
+        <ListItem disablePadding sx={{ display: 'block' }} onClick={()=> setMenudata("OrderLists")}>
           <ListItemButton
             sx={{
               minHeight: 60,
@@ -237,13 +266,13 @@ export default function Sidenav() {
                 marginLeft: 2.5,
               }}
             >
-             <CalendarMonthIcon />
+             <ShoppingCartOutlinedIcon />
             </ListItemIcon>
-            <ListItemText primary="Event Management" />
+            <ListItemText primary="Order Lists" />
           </ListItemButton>
         </ListItem>
 
-        <ListItem disablePadding sx={{ display: 'block' }} onClick={()=> setMenudata("ProjectManagement")}>
+        <ListItem disablePadding sx={{ display: 'block' }} onClick={()=> setMenudata("ProductLists")}>
           <ListItemButton
             sx={{
               minHeight: 60,
@@ -257,6 +286,63 @@ export default function Sidenav() {
                 mr: open ? 3 : 3,
                 justifyContent: 'center',
                 marginLeft: 2.5,
+              }}
+            >
+             <SellIcon />
+            </ListItemIcon>
+            <ListItemText primary="Product Lists" />
+          </ListItemButton>
+        </ListItem>
+
+
+        </List>
+        <Divider />
+
+        <List>
+        
+        
+        <ListItem disablePadding sx={{ display: 'block' }} onClick={()=> setMenudata("EventManagement")}>
+          <ListItemButton
+            sx={{
+              minHeight: 60,
+              justifyContent: open ? 'initial' : 'center',
+              px: 2.5,
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: open ? 3 : 3,
+                justifyContent: 'center',   
+                marginLeft: 2.5,  
+              }}
+            >
+             <CalendarMonthIcon />
+            </ListItemIcon>
+            <ListItemText primary="Event Managements" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding sx={{ display: 'block' }} onClick={()=> setMenudata("ProjectManagement")}>
+          <ListItemButton
+            sx={{
+              minHeight: 60,
+              justifyContent: open ? 'initial' : 'center',
+              px: 2.5,
+             
+             
+
+            
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: open ? 3 : 3,
+                justifyContent: 'center',
+                marginLeft: 2.5,
+            
+
               }}
             >
              <LightbulbOutlinedIcon />
@@ -295,6 +381,7 @@ export default function Sidenav() {
 
   
         </List>
+        </ThemeProvider>
         
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3, display: 'flex'}}>
@@ -303,6 +390,8 @@ export default function Sidenav() {
             {menudata == "BuyerDashboard" && <BuyerDashboard />}
             {menudata == "EventManagement" && <EventManagement />}
             {menudata == "ProjectManagement" && <ProjectManagement />}
+            {menudata == "OrderLists" && <OrdersDashboard/>}
+            {menudata == "ProductLists" && <ProductDashboard/>}
         
       </Box>
     </Box>
