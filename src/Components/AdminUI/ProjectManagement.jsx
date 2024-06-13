@@ -28,11 +28,11 @@ function ProjectManagement  ()  {
   }));
 
   function createData(
-    name: string,
-    calories: string,
-    fat: number,
-    carbs: number,
-    protein: number,
+    name,
+    calories,
+    fat,
+    carbs,
+    protein,
   ) {
     return { name, calories, fat, carbs, protein };
   }

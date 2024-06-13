@@ -2,7 +2,7 @@ import { Box,  Card, Typography } from "@mui/material"
 import { PieChart } from "@mui/x-charts";
 import { useSpring, animated } from 'react-spring';
 import OrderTableUI from "./TablesUI/OrderTableUI";
-import FarmerRegistration from "./TablesUI/FarmerRegistration";
+
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Number ({n}){
@@ -11,9 +11,9 @@ function Number ({n}){
     number:n,
     delay: 20,
     config: {mass: 1, tension: 20, friction: 10},
-
+    
   });
-  return <animated.div>{number.to((n: number)=> n.toFixed(0))}</animated.div>
+  return <animated.div>{number.to((n) => n.toFixed(0))}</animated.div>
 
 }
 
@@ -132,7 +132,7 @@ const Dashboard = () => {
                   
            <Card sx ={{padding: 5, margin: '10px 5px 10px 5px' , width: 350, height: 600 , borderRadius: '10px', }}>
               <Typography variant='h5' sx={{fontWeight: 'bold', marginBottom: 4}}>Pending Verification</Typography>
-                <FarmerRegistration n={330}/>
+              
               </Card>
                
               

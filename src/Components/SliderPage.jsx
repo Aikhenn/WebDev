@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import {Swiper , SwiperSlide } from 'swiper/react';
 
+import {Swiper , SwiperSlide } from 'swiper/react';
 
 
 import 'swiper/css';
@@ -9,7 +7,6 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 import slideImg1 from '../assets/SampPrj1.png';
 import slideImg2 from '../assets/SampPrj2.png';
@@ -27,7 +24,7 @@ function slider(){
             grabCursor={true}
             centeredSlides= {true}
             loop={true}
-            slidesPerView={'auto'}
+            slidesPerView={4}
             coverflowEffect={{
                     rotate: 0,
                     stretch: 0,
@@ -52,6 +49,8 @@ function slider(){
             <SwiperSlide>
                 <img src={slideImg3} alt='slide_image'></img>
             </SwiperSlide>
+           
+        
 
             <div className='slider-controler'>
               
