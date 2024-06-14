@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Button, Card, CardContent, CardMedia, Container, Grid, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
-import HomeBg from '../assets/HomeBg.png';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import MobileApp from '../assets/MobileApp.png';

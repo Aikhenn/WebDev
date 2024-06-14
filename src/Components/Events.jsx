@@ -6,8 +6,8 @@ import EventIcon from '@mui/icons-material/Event';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import NavBar from "./NavBar"; 
 import Footer from "./Footer";
-import CustomPagination from './CustomPagination'; // Import the renamed Pagination component
-import EventsHeader from './EventsHeader'; // Import the EventsHeader component
+import CustomPagination from './CustomPagination';
+import EventsHeader from './EventsHeader'; 
 
 const Events = () => {
     // Style for tag buttons
