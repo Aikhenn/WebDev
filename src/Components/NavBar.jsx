@@ -95,8 +95,8 @@ const NavBar =() => {
     </AppBar>
     
      <Popup
-        open = {open} 
-        setOpen = {setOpen}
+        openPopup = {open} 
+        setOpenPopup = {setOpen}
      >
         
      </Popup>

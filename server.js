@@ -6,6 +6,7 @@ import FarmerModel from "./models/farmer.model.js";
 import BuyerModel from "./models/buyers.model.js";
 import OrderModel from "./models/orders.model.js";
 import ProductModel from "./models/products.model.js";
+import AdminModel from "./models/admin.model.js";
 
 const app = express();
 const port = 5000;
@@ -295,6 +296,98 @@ app.delete("/api/product/:id", async (req, res) => {
     res.status(200).json({ message: "Product Succesfully Deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+//Admin
+app.get("/api/admin", async (req, res) => {
+  try {
+    const AdminList = await AdminModel.find({});
+    res.status(200).json(AdminList);
+    console.log("created Admin");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/admin/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+    const updatedAdmin = await AdminModel.findByIdAndUpdate(
+      id,
+      updatedData
+    );
+    if (!updatedAdmin) {
+      return res.status(404).json({ message: "Admin list not found" });
+    }
+    res.status(200).json(updatedAdmin);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.put("/api/admin/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+    const updatedAdmin = await AdminModel.findByIdAndUpdate(
+      id,
+      updatedData
+    );
+    if (!updatedAdmin) {
+      return res.status(404).json({ message: "admin not found" });
+    }
+    console.log("Updated Data:", updatedAdmin);
+
+    const upAdmin = await AdminModel.findById(id);
+    res.status(200).json(upAdmin);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.post("/api/admin/create", async (req, res) => {
+  try {
+    const admin = await AdminModel.create(req.body);
+    console.log("Admin created:", admin);
+    res.status(200).json(admin);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.delete("/api/admin/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("Id requested", id);
+
+    const AdminList = await AdminModel.findByIdAndDelete(id);
+
+    if (!AdminList) {
+      return res.status(404).json({ message: "Admin not Found" });
+    }
+
+    res.status(200).json({ message: "Admin Succesfully Deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Endpoint for validating admin
+app.post("/api/admin/authenticate", async (req, res) => {
+  const { Username, Password } = req.body;
+  try {
+    console.log("Username:", Username);
+    console.log("Password:", Password);
+    const admin = await AdminModel.findOne({ Username, Password });
+    if (admin) {
+      res.json({ success: true });
+    } else {
+      res.json({ success: false, message: 'Invalid username or password' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 });
 

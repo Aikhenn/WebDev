@@ -206,7 +206,7 @@ function EnhancedTableToolbar(props) {
             component="div"
           >
             Order List<br />
-            <Typography variant="caption" sx={{ color: 'grey'}}>A Data View of Farmers accredited or not accredited with their listed products and orders</Typography>
+            <Typography variant="caption" sx={{ color: 'grey'}}>A Data View of Orders for tracking</Typography>
           </Typography>
         </>
       )}
@@ -230,7 +230,7 @@ function EnhancedTableToolbar(props) {
             sx={{ minWidth: '150px', marginRight: 2, backgroundColor: '#0C7230', '&:hover': { backgroundColor: '#0C7230' } }}
             onClick={onAddClick}
             >
-              <AddIcon sx={{ paddingRight: 0.6 }} /> Add Farmer</Button>
+              <AddIcon sx={{ paddingRight: 0.6 }} /> New Order</Button>
           </Tooltip>
 
           <Tooltip title="Filter list">
