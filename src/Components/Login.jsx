@@ -58,7 +58,7 @@ const Popup = ({ openPopup, setOpenPopup }) => {
   const [passwordError, setPasswordError] = useState("");
   const [authError, setAuthError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const handleUserChange = (e) => {
     setUser(e.target.value);
   };
@@ -69,13 +69,13 @@ const Popup = ({ openPopup, setOpenPopup }) => {
 
   const authenticateUser = async (Username, Password) => {
     try {
-      console.log("authenticating")
-      console.log("Username: ", Password)
+      console.log("authenticating");
+      console.log("Username: ", Password);
       const response = await axios.post("http://localhost:5000/api/admin/authenticate", {
         Username,
         Password,
       });
-      console.log(response)
+      console.log(response);
       return response.data.success;
     } catch (error) {
       console.error("Error authenticating user:", error.response.data);
@@ -104,6 +104,17 @@ const Popup = ({ openPopup, setOpenPopup }) => {
 
   const navigate = useNavigate();
 
+  const handleClose = () => {
+    setOpenPopup(false);
+    resetErrors();
+  };
+
+  const resetErrors = () => {
+    setUserError("");
+    setPasswordError("");
+    setAuthError("");
+  };
+
   return (
     <Dialog
       sx={{
@@ -116,7 +127,7 @@ const Popup = ({ openPopup, setOpenPopup }) => {
         },
       }}
       open={openPopup}
-      onClose={() => setOpenPopup(false)}
+      onClose={handleClose}
       maxWidth="lg"
     >
       <img
@@ -203,14 +214,14 @@ const Popup = ({ openPopup, setOpenPopup }) => {
                   onChange={handlePasswordChange}
                  
                   InputProps={{
-                    style: {color: 'white', borderRadius: 40 },
+                    style: { color: 'white', borderRadius: 40 },
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
                           onClick={handleClickShowPassword}
                           onMouseDown={handleMouseDownPassword}
-                          sx={{color: 'white'}}
+                          sx={{ color: 'white' }}
                         >
                           {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                         </IconButton>
@@ -224,7 +235,7 @@ const Popup = ({ openPopup, setOpenPopup }) => {
                 {authError && (
                   <Typography
                     variant="body2"
-                    sx={{backgroundColor:'#c62828',padding: 1, color: "#FFCDD2", borderRadius: '5px',textAlign: "center", marginTop: 2 }}
+                    sx={{ backgroundColor: '#c62828', padding: 1, color: "#FFCDD2", borderRadius: '5px', textAlign: "center", marginTop: 2 }}
                   >
                     {authError}
                   </Typography>
@@ -249,7 +260,7 @@ const Popup = ({ openPopup, setOpenPopup }) => {
           </Stack>
         </Box>
         <Button
-          onClick={() => setOpenPopup(false)}
+          onClick={handleClose}
           sx={{ position: "absolute", top: -100, left: 0 }}
         >
           Close

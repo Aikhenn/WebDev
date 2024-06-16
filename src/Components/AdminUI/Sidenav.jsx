@@ -180,7 +180,9 @@ export default function Sidenav() {
             Agriculture Quezon FITS Center
           </Typography>
 
-          <IconButton onClick={() => setOpenPopup(true)} sx ={{color: '#0C7230', position: 'relative', left: 1000, borderRadius: 2, height: 50}}>
+          <Typography sx={{color: 'black', marginLeft: 125}}>Admin</Typography>
+
+          <IconButton onClick={() => setOpenPopup(true)} sx ={{color: '#0C7230', position: 'relative',left: 10, borderRadius: 2, height: 50}}>
             <LogoutIcon sx={{marginRight: 1}}/> 
             <Typography>Logout</Typography>
           </IconButton>
