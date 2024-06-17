@@ -113,20 +113,10 @@ export default function EditDialog(props) {
                             onChange={handleChange} 
                             sx={style} 
                             error={!!errors.Email}
-                            helperText={errors.Email ? '2-50 letters and spaces' : ''}
+                            helperText={errors.Email ? 'Invalid Email' : ''}
                         />
                     </Box>
-                    <Box>
-                        <Typography marginBottom={1}>Password</Typography>
-                        <TextField 
-                            name="Password" 
-                            value={formData.Password || ''} 
-                            onChange={handleChange} 
-                            sx={style} 
-                            error={!!errors.Password}
-                            helperText={errors.Password ? '5-100 characters' : ''}
-                        />
-                    </Box>
+               
                 </Box>
                 <Box>
                     

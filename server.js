@@ -7,6 +7,7 @@ import BuyerModel from "./models/buyers.model.js";
 import OrderModel from "./models/orders.model.js";
 import ProductModel from "./models/products.model.js";
 import AdminModel from "./models/admin.model.js";
+import bcrypt from "bcryptjs";
 
 const app = express();
 const port = 5000;
@@ -272,7 +273,7 @@ app.put("/api/products/:id", async (req, res) => {
   }
 });
 
-app.post("/api/product", async (req, res) => {
+app.post("/api/products", async (req, res) => {
   try {
     const ProductList = await ProductModel.create(req.body);
     console.log("products created");
@@ -282,7 +283,7 @@ app.post("/api/product", async (req, res) => {
   }
 });
 
-app.delete("/api/product/:id", async (req, res) => {
+app.delete("/api/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
     console.log("Id requested", id);
@@ -377,16 +378,30 @@ app.delete("/api/admin/:id", async (req, res) => {
 // Endpoint for validating admin
 app.post("/api/admin/authenticate", async (req, res) => {
   const { Username, Password } = req.body;
+  
   try {
     console.log("Username:", Username);
     console.log("Password:", Password);
-    const admin = await AdminModel.findOne({ Username, Password });
+
+    // Find admin by Username
+    const admin = await AdminModel.findOne({ Username });
+
+    console.log("admin pass: ", admin.Password)
     if (admin) {
-      res.json({ success: true });
+      // Compare hashed password from database with plain-text Password input using bcrypt.
+      
+      const isPasswordValid = await bcrypt.compare(Password, admin.Password);
+
+      if (isPasswordValid) {
+        res.json({ success: true });
+      } else {
+        res.json({ success: false, message: 'Invalid username or password' });
+      }
     } else {
       res.json({ success: false, message: 'Invalid username or password' });
     }
   } catch (error) {
+    console.error("Error authenticating admin:", error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });

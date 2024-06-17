@@ -35,6 +35,7 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
         Username: false,
         Email: false,
         AccountType: false,
+        Password: false,
         // Reset other fields if needed
       });
     }
@@ -56,6 +57,33 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
 
   const usernameRegex = /^[a-zA-Z0-9]{4,}$/; // At least 4 alphanumeric characters
   const EmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const PW_LENGTH_REGEX = /^.{8,}$/; // At least 8 characters
+  const PW_LOWERCASE_REGEX = /^(?=.*[a-z])/; // At least one lowercase letter
+  const PW_UPPERCASE_REGEX = /^(?=.*[A-Z])/; // At least one uppercase letter
+  const PW_DIGIT_REGEX = /^(?=.*\d)/; // At least one digit
+  const PW_SPECIAL_REGEX = /^(?=.*[^a-zA-Z0-9])/; // At least one special character (non-alphanumeric)
+
+  const getPasswordValidationMessage = (password) => {
+    if (!PW_LENGTH_REGEX.test(password)) {
+      return 'Password must be at least 8 characters long';
+    }
+    if (!PW_LOWERCASE_REGEX.test(password)) {
+      return 'Password must contain at least one lowercase letter';
+    }
+    if (!PW_UPPERCASE_REGEX.test(password)) {
+      return 'Password must contain at least one uppercase letter';
+    }
+    if (!PW_DIGIT_REGEX.test(password)) {
+      return 'Password must contain at least one digit';
+    }
+    if (!PW_SPECIAL_REGEX.test(password)) {
+      return 'Password must contain at least one special character';
+    }
+    return ''; // Return empty string if all criteria are met
+  };
+
+  const validationMessage = getPasswordValidationMessage(formValues.Password);
+  const helperText = touchedFields.Password && validationMessage;
 
   return (
     <Dialog maxWidth="lg" open={open} onClose={onClose}>
@@ -100,9 +128,9 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
               name="Password"
               value={formValues.Password || ''}
               onChange={handleChange}
-              placeholder='e.g., Admin@gmail.com'
-              error={touchedFields.Password && !usernameRegex.test(formValues.Password)}
-              helperText={touchedFields.Password && !usernameRegex.test(formValues.Password) ? 'Not a Valid Email' : ''}
+              placeholder='e.g., pssword@123'
+              error={Boolean(helperText)}
+              helperText={helperText}
               sx={style}
             />
           </Box>
@@ -135,7 +163,7 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
             !formValues.Password ||
             !formValues.AccountType ||
             (touchedFields.Username && !usernameRegex.test(formValues.Username)) ||
-            (touchedFields.Password && !usernameRegex.test(formValues.Password)) ||
+             helperText ||
             (touchedFields.Email && !EmailRegex.test(formValues.Email)) 
 
           }

@@ -532,7 +532,7 @@ export default function EnhancedTable(n) {
                         />
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.DateOrdered}
+                        {row.DateAdded}
                       </TableCell>
                       <TableCell align="center"> {highlightText(row.ProductName, searchQuery)}</TableCell>
                       <TableCell align="center"> {highlightText(row.FarmerName, searchQuery)}</TableCell>

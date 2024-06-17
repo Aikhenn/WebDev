@@ -9,7 +9,7 @@ import { Box, Typography, Select, MenuItem } from '@mui/material';
 
 export default function AddFarmerDialog({ open, onClose, onAdd }) {
   const [formValues, setFormValues] = useState({
-    DateRegistered: new Date().toISOString().slice(0, 10),
+    DateAdded: new Date().toISOString().slice(0, 10),
     Username: '',
     FullName: '',
     Address: '',
@@ -34,7 +34,7 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
     if (!open) {
       // Reset formValues when dialog is closed
       setFormValues({
-        DateOrdered: new Date().toISOString().slice(0, 10),
+        DateAdded: new Date().toISOString().slice(0, 10),
         BuyerName: '',
         FarmerName: '',
         ProductName: '',
@@ -144,7 +144,7 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
             <Typography marginBottom={1}>Inventory</Typography>
             <TextField
               name="Inventory"
-              value={formValues.Quantity || ''}
+              value={formValues.Inventory || ''}
               onChange={handleChange}
               placeholder='e.g, 200'
               sx={style}
@@ -172,7 +172,7 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
         <Button
           onClick={handleSubmit}
           disabled={
-            !formValues.DateOrdered ||
+            !formValues.DateAdded ||
             !formValues.FarmerName ||
             !formValues.ProductName ||
             !formValues.Price ||

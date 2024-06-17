@@ -156,8 +156,8 @@ export default function EditDialog(props) {
                             value={formData.Inventory || ''} 
                             onChange={handleChange} 
                             sx={style} 
-                            error={!!errors.Quantity}
-                            helperText={errors.Quantity ? 'Exactly 2 digits' : ''}
+                            error={!!errors.Inventory}
+                            helperText={errors.Inventory ? 'Exactly 2 digits' : ''}
                             inputProps={{ maxLength: 2 }}
                         />
                     </Box>
