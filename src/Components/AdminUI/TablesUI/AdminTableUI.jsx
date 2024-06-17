@@ -540,7 +540,7 @@ export default function EnhancedTable(n) {
                         {row.Username}
                       </TableCell>
                       <TableCell align="center">{highlightText(row.Email, searchQuery)}</TableCell>
-                      <TableCell align="center">{highlightText(row.Password)}  </TableCell>
+                      <TableCell align="center">**** </TableCell>
                       <TableCell align="center">{highlightText(row.AccountType, searchQuery)} </TableCell>
                     
                       <TableCell align="center">

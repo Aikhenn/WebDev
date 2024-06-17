@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 
 const AdminSchema = mongoose.Schema(
@@ -28,6 +29,15 @@ const AdminSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+
+AdminSchema.pre("save", async function (next) {
+  if (!this.isModified("Password")) {
+    next();
+  }
+  this.Password = await bcrypt.hash(this.Password, 10);
+});
+
 
 
 
