@@ -140,10 +140,12 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function Sidenav() {
+  
   const theme = useTheme();
   const [open, setOpen] = useState(true);
   const [menudata, setMenudata] = useState("Dashboard");
   const [openPopup, setOpenPopup] = useState(false);
+  const [username, setUsername] = useState(localStorage.getItem("username") || "Guest");
 
   const navigate = useNavigate();
 
@@ -180,7 +182,7 @@ export default function Sidenav() {
             Agriculture Quezon FITS Center
           </Typography>
 
-          <Typography sx={{color: 'black', marginLeft: 125}}>Admin</Typography>
+          <Typography sx={{color: 'black', marginLeft: 125}}>{username}</Typography>
 
           <IconButton onClick={() => setOpenPopup(true)} sx ={{color: '#0C7230', position: 'relative',left: 10, borderRadius: 2, height: 50}}>
             <LogoutIcon sx={{marginRight: 1}}/> 

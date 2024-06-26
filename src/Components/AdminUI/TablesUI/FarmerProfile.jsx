@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { alpha } from '@mui/material/styles';
@@ -30,6 +31,7 @@ import AddDialog from  './FarmerDialogs/AddDialog';
 import AccreditDialog from './FarmerDialogs/AccreditDialog';
 import DiscreditDialog from './FarmerDialogs/DiscreditDialog';
 import {Menu, MenuItem } from '@mui/material';
+import logActivity from "../../../api/api.js";
 
 
 
@@ -262,7 +264,7 @@ function EnhancedTableToolbar(props) {
         <MenuItem onClick={() => onFilterClick(null, 'All')}>All</MenuItem>
         <MenuItem onClick={() => onFilterClick(null, 'Accredited')}>Accredited</MenuItem>
         <MenuItem onClick={() => onFilterClick(null, 'For Checking')}>For Checking</MenuItem>
-        <MenuItem onClick={() => onFilterClick(null, 'Non-accredited')}>Non-accredited</MenuItem>
+        <MenuItem onClick={() => onFilterClick(null, 'Non-Accredited')}>Non-Accredited</MenuItem>
       </Menu>
     </Toolbar>
   );
@@ -284,7 +286,7 @@ export default function EnhancedTable(n) {
   const [discreditDialogOpen, setDiscreditDialogOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState('All'); // State for filter status
   const [filterAnchorEl, setFilterAnchorEl] = useState(null); // State for filter menu anchor
-
+  const [username, setUsername] = useState(localStorage.getItem("username") || "Guest");
 
     const fetchData = async () => {
       try {
@@ -401,6 +403,7 @@ export default function EnhancedTable(n) {
       });
 
       if (response.ok) {
+        await logActivity(`Added ${newFarmer.Username} as new farmer`, username); 
         fetchData();
       } else {
         console.error('Error adding farmer:', response.statusText);
@@ -441,6 +444,9 @@ export default function EnhancedTable(n) {
 
         if (!response.ok) {
           console.error('Failed to delete row with ID:', deletedRows[i]._id);
+        }
+        else{
+          await logActivity( `deleted farmer ${deletedRows[i].Username}`, username); 
         }
       }
 
@@ -490,15 +496,27 @@ export default function EnhancedTable(n) {
 
   const statusStyle = (status) => {
     if(status ==='Accredited') {
-        return "#72F15B";    
+      return "#0C7230";
     }
     if(status ==='For Checking'){
-        return "#F1DF5B"
+        return "#D29A39"
     }
     else{
-      return "#60D4EE";
+      return "#297DDC";
     }
   };
+
+  const statusTxtStyle = (status) => {
+    if (status === 'Accredited') {
+        return "white"
+    }
+    if (status === 'For Checking') {
+        return "white"
+    }
+    else{
+        return "white"
+    }
+};
   
 
   return (
@@ -571,9 +589,11 @@ export default function EnhancedTable(n) {
                         position: 'relative',
                         maxWidth:'auto',
                         backgroundColor: statusStyle(row.status),                    
+                        color: statusTxtStyle(row.status),
                         padding: '7px',
+                        fontWeight: 'bold',
                         fontSize: 12,
-                        borderRadius: 4}}
+                        borderRadius:3}}
                       >
                          {highlightText(row.status, searchQuery)}
                       </Typography>

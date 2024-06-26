@@ -9,16 +9,16 @@ const ProductSchema = mongoose.Schema(
 
     ProductName: {
       type: String,
-      required: [true, "Please enter  Address"],
+      required: [true, "Please enter Product Name"],
     },
     FarmerName: {
       type: String,
-      required: [true, "Please enter Fullrname"],
+      required: [true, "Please enter Farmer Name"],
     },
 
     Price: {
       type: Number,
-      required: [true, "Please enter Cotanct"],
+      required: [true, "Please enter Price"],
     },
     Inventory: {
       type: Number,
@@ -28,6 +28,7 @@ const ProductSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+  
   },
 
   {

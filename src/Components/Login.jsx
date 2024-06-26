@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -7,18 +7,16 @@ import {
   InputAdornment,
   Stack,
   TextField,
-  ThemeProvider,
   Typography,
+  ThemeProvider,
   createTheme,
 } from "@mui/material";
-import { useState } from "react";
 import LoginBg from "../assets/LoginBg2.png";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const theme = createTheme({
   components: {
     MuiTextField: {
@@ -41,6 +39,12 @@ const theme = createTheme({
           },
           "& .MuiInputLabel-root": {
             color: "white",
+            "&.Mui-focused": {
+              color: "white",
+            },
+            "&.MuiInputLabel-shrink": {
+              color: "white",
+            },
           },
           "& .MuiInputBase-input": {
             color: "white",
@@ -58,6 +62,11 @@ const Popup = ({ openPopup, setOpenPopup }) => {
   const [passwordError, setPasswordError] = useState("");
   const [authError, setAuthError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState(""); // State to hold username
+
+  const navigate = useNavigate();
+
+
 
   const handleUserChange = (e) => {
     setUser(e.target.value);
@@ -69,14 +78,19 @@ const Popup = ({ openPopup, setOpenPopup }) => {
 
   const authenticateUser = async (Username, Password) => {
     try {
-      console.log("authenticating");
-      console.log("Username: ", Password);
       const response = await axios.post("http://localhost:5000/api/admin/authenticate", {
         Username,
         Password,
       });
-      console.log(response);
-      return response.data.success;
+      
+      if (response.data.success) {
+        setUsername(Username); 
+        console.log("Active Account: ", username)// Set username in state
+        localStorage.setItem("username", Username); // Store username in localStorage
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       console.error("Error authenticating user:", error.response.data);
       return false;
@@ -89,7 +103,7 @@ const Popup = ({ openPopup, setOpenPopup }) => {
       const isAuthenticated = await authenticateUser(user, password);
       if (isAuthenticated) {
         alert('Login Successful');
-        navigate('/admin'); // navigate to the desired page
+        navigate('/admin'); // Navigate to the desired page upon successful login
       } else {
         setAuthError("Invalid username or password");
       }
@@ -101,8 +115,6 @@ const Popup = ({ openPopup, setOpenPopup }) => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
-  const navigate = useNavigate();
 
   const handleClose = () => {
     setOpenPopup(false);

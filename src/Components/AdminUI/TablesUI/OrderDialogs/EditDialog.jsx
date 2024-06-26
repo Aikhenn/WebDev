@@ -1,11 +1,14 @@
 import { Dialog, DialogTitle, DialogContent, Button, TextField, Typography, Box, DialogActions, Select, MenuItem, FormControl } from '@mui/material';
 import { useState, useEffect, useRef } from 'react';
+import logActivity from "../../../../api/api.js";
 
 export default function EditDialog(props) {
     const { openPopup, setOpenPopup, rowData, fetchData } = props;
     const [formData, setFormData] = useState({});
     const [errors, setErrors] = useState({});
     const initialRowData = useRef(rowData);
+    const [username, setUsername ]= useState(localStorage.getItem("username") || "Guest");
+
 
     useEffect(() => {
         setFormData(rowData || {});
@@ -72,7 +75,7 @@ export default function EditDialog(props) {
             if (!response.ok) {
                 throw new Error('Failed to update order list');
             }
-            console.log('Order updated?', response);
+             await logActivity(`Order of ${rowData.BuyerName} Updated`, username);
 
             fetchData();
             setOpenPopup(false);

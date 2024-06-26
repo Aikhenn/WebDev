@@ -7,6 +7,7 @@ import { animated, useSpring } from 'react-spring';
 
 import BuyerProfile from './TablesUI/BuyerProfile';
 
+
 import { useEffect, useState } from 'react';
 import CachedIcon from '@mui/icons-material/Cached';
 

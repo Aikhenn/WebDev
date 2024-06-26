@@ -32,6 +32,7 @@ import AccreditDialog from './BuyerDialogs/AccreditDialog';
 import DiscreditDialog from './BuyerDialogs/DiscreditDialog';
 
 import {Menu, MenuItem } from '@mui/material';
+import logActivity from "../../../api/api.js";
 
 
 
@@ -264,7 +265,7 @@ function EnhancedTableToolbar(props) {
         <MenuItem onClick={() => onFilterClick(null, 'All')}>All</MenuItem>
         <MenuItem onClick={() => onFilterClick(null, 'Accredited')}>Accredited</MenuItem>
         <MenuItem onClick={() => onFilterClick(null, 'For Checking')}>For Checking</MenuItem>
-        <MenuItem onClick={() => onFilterClick(null, 'Non-accredited')}>Non-accredited</MenuItem>
+        <MenuItem onClick={() => onFilterClick(null, 'Non-Accredited')}>Non-Accredited</MenuItem>
       </Menu>
     </Toolbar>
   );
@@ -286,6 +287,7 @@ export default function EnhancedTable(n) {
   const [discreditDialogOpen, setDiscreditDialogOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState('All'); // State for filter status
   const [filterAnchorEl, setFilterAnchorEl] = useState(null); // State for filter menu anchor
+  const [username, setUsername] = useState(localStorage.getItem("username") || "Guest");
 
 
     const fetchData = async () => {
@@ -403,6 +405,7 @@ export default function EnhancedTable(n) {
       });
 
       if (response.ok) {
+        await logActivity(`Added ${newBuyer.Username} as new buyer`, username); 
         fetchData();
       } else {
         console.error('Error adding buyer:', response.statusText);
@@ -444,6 +447,10 @@ export default function EnhancedTable(n) {
         if (!response.ok) {
           console.error('Failed to delete row with ID:', deletedRows[i]._id);
         }
+        else{
+          await logActivity( `deleted buyer ${deletedRows[i].Username}`, username); 
+        }
+        
       }
 
       // Remove the deleted rows from the state
@@ -492,15 +499,27 @@ export default function EnhancedTable(n) {
 
   const statusStyle = (status) => {
     if(status ==='Accredited') {
-        return "#72F15B";    
+      return "#0C7230";
     }
     if(status ==='For Checking'){
-        return "#F1DF5B"
+        return "#D29A39"
     }
     else{
-      return "#60D4EE";
+      return "#297DDC";
     }
   };
+
+  const statusTxtStyle = (status) => {
+    if (status === 'Accredited') {
+        return "white"
+    }
+    if (status === 'For Checking') {
+        return "white"
+    }
+    else{
+        return "white"
+    }
+};
   
 
   return (
@@ -572,9 +591,11 @@ export default function EnhancedTable(n) {
                       <Typography sx={{
                         position: 'relative',
                         maxWidth:'auto',
-                        backgroundColor: statusStyle(row.status),                    
+                        backgroundColor: statusStyle(row.status),
+                        color: statusTxtStyle(row.status),
                         padding: '7px',
                         fontSize: 12,
+                        fontWeight: 'bold',
                         borderRadius: 4}}
                       >
                          {highlightText(row.status, searchQuery)}

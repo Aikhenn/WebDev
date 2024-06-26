@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dialog, DialogTitle, DialogContent, Button, TextField, Typography, Box, DialogActions } from '@mui/material';
 import { useState, useEffect, useRef } from 'react';
+import logActivity from "../../../../api/api.js";
+
 
 export default function EditDialog(props) {
     const { openPopup, setOpenPopup, rowData, fetchData } = props;
     const [formData, setFormData] = useState({});
     const [errors, setErrors] = useState({});
     const initialRowData = useRef(rowData);
+    const [username, setUsername ]= useState(localStorage.getItem("username") || "Guest");
 
     useEffect(() => {
         setFormData(rowData || {});
@@ -73,8 +77,8 @@ export default function EditDialog(props) {
             if (!response.ok) {
                 throw new Error('Failed to update farmer');
             }
-            console.log('Farmer updated?', response);
-
+            await logActivity(`Edited farmer ${rowData.Username}`, username);
+                
             fetchData();
             setOpenPopup(false);
         } catch (error) {

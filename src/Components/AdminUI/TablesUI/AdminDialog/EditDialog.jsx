@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dialog, DialogTitle, DialogContent, Button, TextField, Typography, Box, DialogActions, Select, MenuItem, FormControl } from '@mui/material';
 import { useState, useEffect, useRef } from 'react';
+import logActivity from "../../../../api/api.js";
 
 export default function EditDialog(props) {
     const { openPopup, setOpenPopup, rowData, fetchData } = props;
     const [formData, setFormData] = useState({});
     const [errors, setErrors] = useState({});
     const initialRowData = useRef(rowData);
+    const [username, setUsername] = useState(localStorage.getItem("username") || "Guest");
+
 
     useEffect(() => {
         setFormData(rowData || {});
@@ -68,9 +72,13 @@ export default function EditDialog(props) {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update order list');
+                throw new Error('Failed to update admin list');
             }
-            console.log('Admin Updated?', response);
+            else{
+                await logActivity(`Admin ${formData.Username} Updated`, username);
+                console.log('Admin Updated?', response);
+            }
+         
 
             fetchData();
             setOpenPopup(false);

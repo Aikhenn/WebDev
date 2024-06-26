@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -5,11 +6,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import logActivity from "../../../../api/api.js";
+import  { useState } from "react";
+
 
 export default function AccreditDialog({ openPopup, setOpenPopup, rowData, fetchData }) {
   const handleClose = () => {
     setOpenPopup(false);
   };
+  
+  const [username, setUsername ]= useState(localStorage.getItem("username") || "Guest");
 
 
 
@@ -26,7 +32,11 @@ export default function AccreditDialog({ openPopup, setOpenPopup, rowData, fetch
       if (!response.ok) {
         throw new Error('Failed to accredit farmer');
       }
-      console.log('Farmer updated:', response);
+      else{
+        await logActivity(`Accredited farmer ${rowData.Username}`, username);
+      
+      }
+
 
       fetchData();
       setOpenPopup(false);
@@ -48,7 +58,11 @@ export default function AccreditDialog({ openPopup, setOpenPopup, rowData, fetch
       if (!response.ok) {
         throw new Error('Failed to discredit farmer');
       }
-      console.log('Farmer updated:', response);
+      else{
+        await logActivity(`Discredited farmer ${rowData.Username}`, username);
+      
+      }
+
 
       fetchData();
       setOpenPopup(false);

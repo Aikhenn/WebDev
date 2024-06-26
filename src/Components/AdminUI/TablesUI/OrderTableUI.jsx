@@ -29,6 +29,7 @@ import EditDialog from './OrderDialogs/EditDialog';
 import AddDialog from  './OrderDialogs/AddDialog';
 
 import {Menu, MenuItem } from '@mui/material';
+import logActivity from "../../../api/api.js";
 
 
 
@@ -274,6 +275,7 @@ export default function EnhancedTable(n) {
   const [searchQuery, setSearchQuery] = useState(''); 
   const [filterStatus, setFilterStatus] = useState('All'); // State for filter status
   const [filterAnchorEl, setFilterAnchorEl] = useState(null); // State for filter menu anchor
+  const [username, setUsername] = useState(localStorage.getItem("username") || "Guest");
 
 
     const fetchData = async () => {
@@ -386,6 +388,7 @@ export default function EnhancedTable(n) {
 
       if (response.ok) {
         fetchData();
+        await logActivity(`Added new order for buyer ${newOrder.BuyerName}`, username); 
       } else {
         console.error('Error adding order:', response.statusText);
       }
@@ -425,6 +428,9 @@ export default function EnhancedTable(n) {
 
         if (!response.ok) {
           console.error('Failed to delete row with ID:', deletedRows[i]._id);
+        }
+        else{
+          await logActivity( `deleted ${deletedRows[i].BuyerName}'s order of ${deletedRows[i].ProductName}`, username); 
         }
       }
 
@@ -473,15 +479,28 @@ export default function EnhancedTable(n) {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const statusStyle = (status) => {
-    if(status ==='Completed') {
-        return "#72F15B";    
+    if (status === 'Completed') {
+      return "#20C259";    
     }
-    if(status ==='On-Going'){
-        return "#F1DF5B"
+    if (status === 'On-Going') {
+      return "#D29A39"
     }
-    else{
-      return "#F38484";
+    else {
+      return "rgba(243, 132, 132, 1)";
     }
+  };
+  
+
+  const statusBgStyle = (status) => {
+    if (status === 'Completed') {
+      return "rgba(32, 194, 89, 0.05)";
+    }
+    if (status === 'On-Going') {
+      return "rgba(216, 203, 3, 0.05)";
+    }
+    else {
+      return "rgba(243, 132, 132, 0.05)";
+    } 
   };
   
 
@@ -546,17 +565,19 @@ export default function EnhancedTable(n) {
                       <TableCell align="center"> {highlightText(row.BuyerName, searchQuery)}</TableCell>
                       <TableCell align="center"> {highlightText(row.FarmerName, searchQuery)}</TableCell>
                       <TableCell align="center"> {highlightText(row.ProductName, searchQuery)}</TableCell>
-                      <TableCell align="center"> {highlightText(row.Price, searchQuery)}</TableCell>
+                      <TableCell align="center"> ₱ {highlightText(row.Price, searchQuery)}</TableCell>
                       <TableCell align="center"> {highlightText(row.Quantity, searchQuery)}</TableCell>
                       <TableCell align="center">
                     
                       <Typography sx={{
                         position: 'relative',
                         maxWidth:'auto',
-                        border: `2px solid ${statusStyle(row.status)}`,                    
+                        backgroundColor: `${statusBgStyle(row.status)}`,
+                        border: `2px solid ${statusStyle(row.status)}`,
+                        color: `${statusStyle(row.status)}`,                    
                         padding: '7px',
                         fontSize: 12,
-                        borderRadius: 4}}
+                        borderRadius: 24}}
                       >
                          {highlightText(row.status, searchQuery)}
                       </Typography>

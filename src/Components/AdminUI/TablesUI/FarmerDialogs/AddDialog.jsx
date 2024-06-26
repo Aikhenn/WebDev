@@ -218,7 +218,7 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
             >
               <MenuItem value="For Checking">For Checking</MenuItem>
               <MenuItem value="Accredited">Accredited</MenuItem>
-              <MenuItem value="Non-accredited">Non-accredited</MenuItem>
+              <MenuItem value="Non-Accredited">Non-Accredited</MenuItem>
             </Select>
           </Box>
         </Box>

@@ -246,8 +246,9 @@ function EnhancedTableToolbar(props) {
         onClose={() => onFilterClick(null)}
       >
         <MenuItem onClick={() => onFilterClick(null, 'All')}>All</MenuItem>
-        <MenuItem onClick={() => onFilterClick(null, 'To-Verify')}>To Verify</MenuItem>
+        <MenuItem onClick={() => onFilterClick(null, 'Pending')}>Pending</MenuItem>
         <MenuItem onClick={() => onFilterClick(null, 'Verified')}>Verified</MenuItem>
+        <MenuItem onClick={() => onFilterClick(null, 'Rejected')}>Rejected</MenuItem>
     
       </Menu>
     </Toolbar>
@@ -467,14 +468,31 @@ export default function EnhancedTable(n) {
 
   const statusStyle = (status) => {
     if(status ==='Verified') {
-        return "#72F15B";    
+        return "#20C259";    
     }
-    if(status ==='To-Verify'){
-        return "#F1DF5B"
+    if(status ==='Pending'){
+        return "#D29A39"
     }
+    if(status ==='Rejected'){
+      return "red"
+  }
    
   };
   
+  const statusBgStyle = (status) => {
+    if (status === 'Verified') {
+        return "rgba(32, 194, 89, 0.05)";
+    }
+    if (status === 'Pending') {
+        return "rgba(216, 203, 3, 0.05)";
+    }
+    if (status === 'Rejected') {
+        return "rgba(255, 0, 0, 0.05)";
+    }
+};
+
+
+
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -536,15 +554,16 @@ export default function EnhancedTable(n) {
                       </TableCell>
                       <TableCell align="center"> {highlightText(row.ProductName, searchQuery)}</TableCell>
                       <TableCell align="center"> {highlightText(row.FarmerName, searchQuery)}</TableCell>
-                      <TableCell align="center"> {highlightText(row.Price, searchQuery)}</TableCell>
+                      <TableCell align="center"> ₱ {highlightText(row.Price, searchQuery)}</TableCell>
                       <TableCell align="center"> {highlightText(row.Inventory, searchQuery)}</TableCell>
                       <TableCell align="center">
                     
                       <Typography sx={{
                         position: 'relative',
                         maxWidth:'auto',
+                        backgroundColor: `${statusBgStyle(row.status)}`,
                         border: `2px solid ${statusStyle(row.status)}`,   
-                                       
+                        color: `${statusStyle(row.status)}`,                                      
                         padding: '7px',
                         fontSize: 12,
                         borderRadius: 1}}

@@ -20,7 +20,10 @@ const OrderSchema = mongoose.Schema(
     },
     Price: {
       type: Number,
-      required: [true, "Please enter Cotanct"],
+      required: [true, "Please enter Price"],
+      get: (v) => {
+        return parseFloat(v).toFixed(2); // Ensure price is always formatted to 2 decimal places
+      },
     },
     Quantity: {
       type: Number,

@@ -5,29 +5,24 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Box, Typography, Select, MenuItem } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 export default function AddFarmerDialog({ open, onClose, onAdd }) {
   const [formValues, setFormValues] = useState({
     DateAdded: new Date().toISOString().slice(0, 10),
-    Username: '',
-    FullName: '',
-    Address: '',
-    Contact: '',
-    Organization: '',
-    Products: '',
-    Orders: '',
-    Password: '',
-    status: '',
+    FarmerName: '',
+    ProductName: '',
+    Price: '',
+    Inventory: '',
+    status: 'Pending',
+    photo: null, // New field for photo
   });
+
   const [touchedFields, setTouchedFields] = useState({
-    Username: false,
-    FullName: false,
-    Address: false,
-    Contact: false,
-    Password: false,
-    status: false,
-    // Add other fields here if needed
+    FarmerName: false,
+    ProductName: false,
+    Price: false,
+    Inventory: false,
   });
 
   useEffect(() => {
@@ -35,38 +30,42 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
       // Reset formValues when dialog is closed
       setFormValues({
         DateAdded: new Date().toISOString().slice(0, 10),
-        BuyerName: '',
         FarmerName: '',
         ProductName: '',
         Price: '',
-        Quantity: '',
-        status: '',
+        Inventory: '',
+        status: 'Pending',
+        photo: null, // Reset photo
       });
       setTouchedFields({
-        BuyerName: false,
         FarmerName: false,
         ProductName: false,
         Price: false,
-        Quantity: false,
-        status: false,
-        // Reset other fields if needed
+        Inventory: false,
       });
     }
   }, [open]);
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormValues({ ...formValues, [name]: value });
-    setTouchedFields({ ...touchedFields, [name]: true });
+    const { name, value, files } = event.target;
+    if (name === 'photo') {
+      setFormValues({ ...formValues, [name]: files[0] });
+    } else {
+      setFormValues({ ...formValues, [name]: value });
+      setTouchedFields({ ...touchedFields, [name]: true });
+    }
   };
 
   const handleSubmit = () => {
-    onAdd(formValues);
+    const formData = new FormData();
+    for (const key in formValues) {
+      formData.append(key, formValues[key]);
+    }
+    onAdd(formData);
     onClose();
   };
 
   const handleKeyPress = (event) => {
-    // Allow only numeric input for Contact No.
     const pattern = /^[0-9\b]+$/;
     if (!pattern.test(event.key)) {
       event.preventDefault();
@@ -75,8 +74,7 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
 
   const style = { width: '300px', margin: '0px 0px 10px 0px', backgroundColor: '#F3F3F3' };
 
-  const usernameRegex = /^[a-zA-Z0-9]{4,}$/; // At least 4 alphanumeric characters
-  const fullNameRegex = /^[a-zA-Z]+\s+[a-zA-Z]+$/; // Full name must include at least a first and last name
+  const fullNameRegex = /^[a-zA-Z]+\s+[a-zA-Z]+$/;
 
   return (
     <Dialog maxWidth="lg" open={open} onClose={onClose}>
@@ -95,10 +93,6 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
             />
           </Box>
           <Box>
-         
-          </Box>
-          <Box>
-          <Box>
             <Typography marginBottom={1} display={'flex'}>
               Product Name<Typography sx={{ color: '#F1C4C4' }}>*</Typography>
             </Typography>
@@ -106,10 +100,13 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
               name="ProductName"
               value={formValues.ProductName || ''}
               onChange={handleChange}
-              placeholder='e.g., Carrots'
+              placeholder="e.g., Carrots"
               sx={style}
+              error={touchedFields.ProductName && !formValues.ProductName}
+              helperText={touchedFields.ProductName && !formValues.ProductName ? 'Product Name is required' : ''}
             />
           </Box>
+          <Box>
             <Typography marginBottom={1} display={'flex'}>
               Farmer Name<Typography sx={{ color: '#F1C4C4' }}>*</Typography>
             </Typography>
@@ -117,13 +114,12 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
               name="FarmerName"
               value={formValues.FarmerName || ''}
               onChange={handleChange}
-              placeholder='e.g., John Doe'
+              placeholder="e.g., John Doe"
               error={touchedFields.FarmerName && !fullNameRegex.test(formValues.FarmerName)}
               helperText={touchedFields.FarmerName && !fullNameRegex.test(formValues.FarmerName) ? 'Full Name must include first and last name' : ''}
               sx={style}
             />
           </Box>
-        
         </Box>
         <Box>
           <Box>
@@ -135,35 +131,50 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
               value={formValues.Price || ''}
               onChange={handleChange}
               onKeyPress={handleKeyPress}
-              placeholder='e.g., 40.20'
+              placeholder="e.g., 40.20"
               sx={style}
-    
+              error={touchedFields.Price && !formValues.Price}
+              helperText={touchedFields.Price && !formValues.Price ? 'Price is required' : ''}
             />
           </Box>
           <Box>
-            <Typography marginBottom={1}>Inventory</Typography>
+            <Typography marginBottom={1} display={'flex'}>
+              Inventory<Typography sx={{ color: '#F1C4C4' }}>*</Typography>
+            </Typography>
             <TextField
               name="Inventory"
               value={formValues.Inventory || ''}
               onChange={handleChange}
-              placeholder='e.g, 200'
+              onKeyPress={handleKeyPress}
+              placeholder="e.g., 200"
               sx={style}
+              error={touchedFields.Inventory && !formValues.Inventory}
+              helperText={touchedFields.Inventory && !formValues.Inventory ? 'Inventory is required' : ''}
             />
           </Box>
           <Box>
             <Typography marginBottom={1} display={'flex'}>
               Status<Typography sx={{ color: '#F1C4C4' }}>*</Typography>
             </Typography>
-            <Select
-                name="status"
-              value={formValues.status || 'On-Going'}
+            <TextField
+              name="status"
+              value={formValues.status}
               onChange={handleChange}
+              disabled
               sx={style}
-            >
-              <MenuItem value="To-Verify">To Verify</MenuItem>
-              <MenuItem value="Verified">Verified</MenuItem>
-              
-            </Select>
+            />
+          </Box>
+          <Box>
+            <Typography marginBottom={1} display={'flex'}>
+              Upload Photo<Typography sx={{ color: '#F1C4C4' }}>*</Typography>
+            </Typography>
+            <input
+              type="file"
+              name="photo"
+              onChange={handleChange}
+              accept="image/*"
+              style={style}
+            />
           </Box>
         </Box>
       </DialogContent>
@@ -177,10 +188,8 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
             !formValues.ProductName ||
             !formValues.Price ||
             !formValues.Inventory ||
-            !formValues.status ||
-            (touchedFields.Username && !usernameRegex.test(formValues.Username)) ||
-            (touchedFields.FullName && !fullNameRegex.test(formValues.FullName)) 
-
+            !formValues.photo || // Ensure photo is provided
+            (touchedFields.FarmerName && !fullNameRegex.test(formValues.FarmerName))
           }
         >
           Add

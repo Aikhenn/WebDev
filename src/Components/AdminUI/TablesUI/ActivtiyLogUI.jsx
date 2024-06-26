@@ -25,45 +25,26 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 
 import { Menu, MenuItem } from "@mui/material";
 
-function createData(id, _id, Username, Email, Password, AccountType, action) {
+function createData(id, _id, createdAt, Username, Activity) {
+  const date = new Date(createdAt);
+  const formattedDate = date.toLocaleDateString();
+  const formattedTime = date.toLocaleTimeString();
+
   return {
     id,
     _id,
+    Date: formattedDate,
+    Time: formattedTime,
     Username,
-    Email,
-    Password,
-    AccountType,
-    action,
+    Activity,
   };
 }
 
 const headCells = [
-  {
-    id: "Date",
-    numeric: false,
-    disablePadding: false,
-    label: "Date",
-  },
-  {
-    id: "Username",
-    numeric: false,
-    disablePadding: false,
-    label: "Username",
-  },
-  {
-    id: "Activity",
-    numeric: false,
-    disablePadding: false,
-    label: "Activity",
-  },
-
-  {
-    id: "AccountType",
-    numeric: false,
-    disablePadding: false,
-    label: "Account Type",
-  },
-
+  { id: "Date", numeric: false, disablePadding: false, label: "Date" },
+  { id: "Time", numeric: false, disablePadding: false, label: "Time" },
+  { id: "Username", numeric: false, disablePadding: false, label: "Username" },
+  { id: "Activity", numeric: false, disablePadding: false, label: "Activity" },
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -139,7 +120,6 @@ function EnhancedTableHead(props) {
 function EnhancedTableToolbar(props) {
   const {
     numSelected,
-   
     handleDelete,
     onSearchChange,
     onFilterClick,
@@ -244,22 +224,14 @@ export default function EnhancedTable(n) {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/activitylog");
+      const response = await fetch("http://localhost:5000/api/activitylogs");
       const data = await response.json();
       console.log("data :", data); // View the fetched data in the console
 
       const formattedRows = data.map((item, index) =>
-        createData(
-          index + 1,
-          item._id,
-          item.Date,
-          item.Email,
-          item.Password,
-          item.AccountType,
-          ""
-        )
+        createData(index + 1, item._id, item.createdAt, item.Username, item.Activity)
       );
-      console.log("data created");
+  
       setRows(formattedRows);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -289,12 +261,10 @@ export default function EnhancedTable(n) {
   const handleSearchChange = (query) => {
     setSearchQuery(query);
   };
-
   const filteredRows = rows.filter(
     (row) =>
       (row.Username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.Email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.AccountType.toLowerCase().includes(searchQuery.toLowerCase())) &&
+        row.Activity.toLowerCase().includes(searchQuery.toLowerCase())) &&
       (filterStatus === "All" || row.AccountType === filterStatus)
   );
 
@@ -342,6 +312,7 @@ export default function EnhancedTable(n) {
         if (!response.ok) {
           console.error("Failed to delete row with ID:", deletedRows[i]._id);
         }
+        
       }
 
       // Remove the deleted rows from the state
@@ -441,11 +412,11 @@ export default function EnhancedTable(n) {
                         padding="none"
                         align="center"
                       >
-                        {row.Username}
+                        {highlightText(row.Date, searchQuery)}
                       </TableCell>
-                      <TableCell align="center">{highlightText(row.Email, searchQuery)}</TableCell>
-                      <TableCell align="center">{highlightText(row.Password)}  </TableCell>
-                      <TableCell align="center">{highlightText(row.AccountType, searchQuery)} </TableCell>
+                      <TableCell align="center">{highlightText(row.Time, searchQuery)}  </TableCell>
+                      <TableCell align="center">{highlightText(row.Username, searchQuery)}  </TableCell>
+                      <TableCell align="center">{highlightText(row.Activity, searchQuery)} </TableCell>
                   
                     </TableRow>
                   );

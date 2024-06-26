@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Box, Typography, Select, MenuItem } from '@mui/material';
 
+
 export default function AddFarmerDialog({ open, onClose, onAdd }) {
   const [formValues, setFormValues] = useState({
     DateRegistered: new Date().toISOString().slice(0, 10),
@@ -219,7 +220,7 @@ export default function AddFarmerDialog({ open, onClose, onAdd }) {
             >
               <MenuItem value="For Checking">For Checking</MenuItem>
               <MenuItem value="Accredited">Accredited</MenuItem>
-              <MenuItem value="Non-accredited">Non-accredited</MenuItem>
+              <MenuItem value="Non-Accredited">Non-Accredited</MenuItem>
             </Select>
           </Box>
         </Box>
